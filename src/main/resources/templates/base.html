@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html class="dark" lang="en" th:fragment="parent(content,title)" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title data-th-replace="${title}">SCM</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
+          rel="stylesheet" />
+    <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
+</head>
+<body class="dark:bg-gray-900 dark:text-white ">
+
+<div data-th-replace="~{navbar :: navbar}">
+
+</div>
+
+<di class="mx-auto">
+    <section  data-th-replace="${content}"></section>
+    call from base page
+</di>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+</body>
+</html>
