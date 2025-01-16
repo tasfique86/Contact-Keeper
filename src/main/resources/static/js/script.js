@@ -2,7 +2,9 @@ console.log("Script loaded!");
 
 let currentTheme=getTheme();
 
-changeTheme();
+document.addEventListener("DOMContentLoaded", () => {
+    changeTheme();
+});
 
 
 function changeTheme(){
