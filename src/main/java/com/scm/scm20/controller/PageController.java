@@ -2,7 +2,10 @@ package com.scm.scm20.controller;
 
 import com.scm.scm20.entities.User;
 import com.scm.scm20.forms.UserForm;
+import com.scm.scm20.helper.Message;
+import com.scm.scm20.helper.MessageType;
 import com.scm.scm20.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,7 +64,7 @@ public class PageController {
     }
 
     @RequestMapping(value = "/do-register", method = RequestMethod.POST)
-    public String processRegister(@ModelAttribute UserForm userForm) {
+    public String processRegister(@ModelAttribute UserForm userForm, HttpSession session) {
         System.out.println(userForm);
 
         // userForm to user convert using builder (---- way 1 -----------)
@@ -89,6 +92,12 @@ public class PageController {
         User saveUser= userService.saveUser(user);
 
         System.out.println("save successfully");
+        // add message
+        Message message = Message.builder().content("Registration successful").type(MessageType.green).build();
+        session.setAttribute("message",message);
+
+
+
         return "redirect:/register";
 
     }
