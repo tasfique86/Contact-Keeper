@@ -1,22 +1,32 @@
 package com.scm.scm20.controller;
 
+import com.scm.scm20.entities.User;
+import com.scm.scm20.forms.UserForm;
+import com.scm.scm20.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import java.lang.String;
 
 
 @Controller
 public class PageController {
 
+
+     @Autowired
+     private UserService userService;
+
     @RequestMapping("/home")
-    public String Home(Model model) {
+    public String Home( ) {
 
         return "home";
     }
     @RequestMapping("/about")
-    public String About(Model model) {
+    public String About( ) {
 
         return "about";
     }
@@ -29,7 +39,11 @@ public class PageController {
     }
 
     @GetMapping("/register")
-    public String Register() {
+    public String Register(Model model) {
+        UserForm userForm = new UserForm();
+      //  userForm.setName(" ");
+       //userForm.setName("Tasfique");
+        model.addAttribute("userForm", userForm);
 
         return "register";
     }
@@ -45,9 +59,36 @@ public class PageController {
 
         return "login";
     }
+
     @RequestMapping(value = "/do-register", method = RequestMethod.POST)
-    public String processRegister() {
-        System.out.println("Processing Register");
+    public String processRegister(@ModelAttribute UserForm userForm) {
+        System.out.println(userForm);
+
+        // userForm to user convert using builder (---- way 1 -----------)
+//        User user = User.builder()
+//                .name(userForm.getName())
+//                .email(userForm.getEmail())
+//                .about(userForm.getAbout())
+//                .password(userForm.getPassword())
+//                .phoneNumber(userForm.getPhoneNumber())
+//                .profilePic("https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1738071894~exp=1738075494~hmac=e00af52fe6f2c2bc9cee05581407f4b21ce17958d780f890570b23ebe750ef8e&w=826")
+//                .build();
+
+
+        // userForm to user convert (--------- way 2 ----------)
+
+        User user = new User();
+        user.setName(userForm.getName());
+        user.setEmail(userForm.getEmail());
+        user.setAbout(userForm.getAbout());
+        user.setPhoneNumber(userForm.getPhoneNumber());
+        user.setPassword(userForm.getPassword());
+        user.setProfilePic("https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1738071894~exp=1738075494~hmac=e00af52fe6f2c2bc9cee05581407f4b21ce17958d780f890570b23ebe750ef8e&w=826");
+
+
+        User saveUser= userService.saveUser(user);
+
+        System.out.println("save successfully");
         return "redirect:/register";
 
     }

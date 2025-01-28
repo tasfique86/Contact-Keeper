@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity(name="user")
 @Table(name = "users")
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -34,9 +35,13 @@ public class User {
     private boolean emailVerified=false;
     private boolean phoneNumberVerified=false;
 
+   // @Builder.Default     //use this annotation when use builder to set value
+    @Enumerated(value = EnumType.STRING)
     //SELF,GOOGLE,FACEBOOK,TWITTER,LINKEDIN,GITHUB
     private Providers providers=Providers.SELF;
     private String providerUserId;
+
+
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval=true)
     private List<Contact> contacts=new ArrayList<>();
