@@ -6,9 +6,12 @@ import com.scm.scm20.helper.Message;
 import com.scm.scm20.helper.MessageType;
 import com.scm.scm20.services.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import org.aspectj.weaver.patterns.BindingPattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,8 +67,15 @@ public class PageController {
     }
 
     @RequestMapping(value = "/do-register", method = RequestMethod.POST)
-    public String processRegister(@ModelAttribute UserForm userForm, HttpSession session) {
+    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult bindingResult, HttpSession session) {
         System.out.println(userForm);
+
+        //-----validation-----------------
+
+        if(bindingResult.hasErrors() ){
+            return "register";
+        }
+
 
         // userForm to user convert using builder (---- way 1 -----------)
 //        User user = User.builder()

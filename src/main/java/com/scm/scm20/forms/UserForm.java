@@ -1,5 +1,8 @@
 package com.scm.scm20.forms;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +16,23 @@ import java.lang.String;
 
 @ToString
 public class UserForm {
+
+    @NotBlank(message = "Username is required")
+    @Size(min=3,message = "Minimun 3 Character is required")
     private String name;
+
+    @Email(message = "Invalid Email Address")
+    @NotBlank(message = "Email is required")
     private String email;
+
+    @NotBlank(message = "Minimum 6 character is required")
     private String password;
+
+    @NotBlank(message = "About is required")
     private String about;
+
+
+    @Size(min = 8 ,max = 12, message = "Invalid Phone Number")
     private String phoneNumber;
 
 //    public void setName(String name) {
