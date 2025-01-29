@@ -1,12 +1,14 @@
 package com.scm.scm20.services.Imp;
 
 import com.scm.scm20.entities.User;
+import com.scm.scm20.helper.AppConstents;
 import com.scm.scm20.helper.ResourceNotFoundException;
 import com.scm.scm20.repositories.UserRepositories;
 import com.scm.scm20.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public User saveUser(User user) {
@@ -29,7 +33,12 @@ public class UserServiceImpl implements UserService {
         String userId= UUID.randomUUID().toString();
         user.setUserId(userId);
         //password encoder
+        //set user password after encode
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         //user.setPassword(userId);
+
+        //set user role
+        user.setRoleList(List.of(AppConstents.ROLE_USER));
         return userRepositories.save(user);
     }
 
