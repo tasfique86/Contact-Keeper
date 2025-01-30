@@ -7,8 +7,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 public class SecurityConfig {
@@ -30,6 +33,7 @@ public class SecurityConfig {
     @Autowired
     private SecurityCustomUserDetailService  userDetailService;
 
+    // configuration for authentication provider spring security
     @Bean
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider  = new DaoAuthenticationProvider();
@@ -40,6 +44,24 @@ public class SecurityConfig {
 
         return daoAuthenticationProvider;
     }
+
+
+    // configure URL access control to define who can access which endpoints
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpsecurity) throws Exception{
+        httpsecurity.authorizeHttpRequests(authorize -> {
+           // authorize.requestMatchers("/home","/register","services").permitAll();
+            authorize.requestMatchers("/user/**").authenticated();
+            authorize.anyRequest().permitAll();
+        });
+
+        //form default loginpage
+        httpsecurity.formLogin(Customizer.withDefaults());
+
+
+        return httpsecurity.build();
+    }
+
 
     @Bean
     public PasswordEncoder passwordEncoder(){

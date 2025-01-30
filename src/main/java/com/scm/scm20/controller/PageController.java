@@ -26,6 +26,11 @@ public class PageController {
      @Autowired
      private UserService userService;
 
+     @GetMapping("/")
+     public String index( ) {
+         return "redirect:/home";
+     }
+
     @RequestMapping("/home")
     public String Home( ) {
 
@@ -63,7 +68,7 @@ public class PageController {
     @GetMapping("/login")
     public String Login() {
 
-        return "login";
+        return new String("login");
     }
 
     @RequestMapping(value = "/do-register", method = RequestMethod.POST)
