@@ -12,13 +12,23 @@
           referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
-    <link rel="stylesheet" data-th-href="@{'/css/style.css'}"
+    <link rel="stylesheet" data-th-href="@{'/css/style.css'}">
 
 </head>
 <body class="dark:bg-gray-800 dark:text-white bg-gray-100 ">
 
-<div  data-th-replace="~{navbar :: navbar}">
+<!--if user is logged in : navber-->
+<div th:if="${loggedInUser}">
 
+    <div  data-th-replace="~{user/user_navbar ::user-navbar}"></div>
+
+</div>
+
+
+
+<!--if user is not logged in-->
+<div th:unless="${loggedInUser}">
+    <div  data-th-replace="~{navbar :: navbar}"></div>
 </div>
 
 <div class="mt-5">
