@@ -25,6 +25,7 @@ public class Contact {
     private String description;
     private boolean favorite=false;
     private String linkdInLink;
+    private String facebookLink;
 
     @ManyToOne
     private User user;
