@@ -23,6 +23,9 @@
             <div class="col-span-3 "></div>
             <div class=" col-span-12 md:col-span-6  ">
                <div class="card block  p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-700 dark:hover:bg-gray-800">
+
+                   <div data-th-replace="message::messagebox"></div>
+
                    <h2 class="text-2xl font-semibold">Add New Contact</h2>
                    <p class="text-gray-400"> This contact will be stored on cloud</p>
 
@@ -37,8 +40,8 @@
                        <div class="mb-3">
                            <label
                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                               Contact Name</label>
-                           <div class="relative mb-6">
+                               * Contact Name</label>
+                           <div class="relative mb-1">
                                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                    <i class="fa-solid fa-user"></i>
                                </div>
@@ -49,13 +52,19 @@
                                       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                       placeholder="name">
                            </div>
+<!--                           this is for error messages-->
+                           <p class="text-red-600" data-th-if="${#fields.hasErrors('name')}"
+                           data-th-errors="*{name}">
+                           >
+                               Invalid name
+                           </p>
                        </div>
 <!--                        contact email-->
                        <div class="mb-3">
                            <label
                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                               Contact Email</label>
-                           <div class="relative mb-6">
+                               * Contact Email</label>
+                           <div class="relative mb-1">
                                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                    <i class="fa-solid fa-envelope"></i>
                                </div>
@@ -66,24 +75,36 @@
                                       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                       placeholder="name@gmail.com">
                            </div>
+<!--                           this for error messages-->
+                           <p class="text-red-600"
+                              data-th-if="${#fields.hasErrors('email')}"
+                                 data-th-errors="*{email}">
+                               Invalid email
+                           </p>
                        </div>
 
                        <!--                        contact phoneNumber-->
                        <div class="mb-3">
                            <label
                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                               Contact Phone </label>
-                           <div class="relative mb-6">
+                               * Contact Phone </label>
+                           <div class="relative mb-1">
                                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                    <i class="fa-solid fa-phone"></i>
                                </div>
-                               <input type="text" i
+                               <input type="text"
                                       data-th-field="*{phoneNumber}"
                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
                                       focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600
                                       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                       placeholder="+880 1XXXXXXXXX">
                            </div>
+                           <!--                           this for error messages-->
+                           <p class="text-red-600"
+                              data-th-if="${#fields.hasErrors('phoneNumber')}"
+                              data-th-errors="*{phoneNumber}">
+                               Invalid phone number
+                           </p>
                        </div>
 
 <!--                        location-->

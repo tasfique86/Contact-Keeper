@@ -5,12 +5,17 @@ import com.scm.scm20.entities.Contact;
 import com.scm.scm20.entities.User;
 import com.scm.scm20.forms.ContactForm;
 import com.scm.scm20.helper.Helper;
+import com.scm.scm20.helper.Message;
+import com.scm.scm20.helper.MessageType;
 import com.scm.scm20.services.ContactService;
 import com.scm.scm20.services.UserService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,8 +33,8 @@ public class ContactController {
     public String addContact(Model model) {
 
         ContactForm contactForm = new ContactForm();
-        contactForm.setName("Tasfique");
-        contactForm.setFavorite(true);
+//        contactForm.setName("Tasfique");
+//        contactForm.setFavorite(true);
 
         model.addAttribute("contactForm", contactForm);
         return "user/add_contact";
@@ -37,13 +42,25 @@ public class ContactController {
     }
     //  this  post method call from add_contact.html ( in form section) code : (call "/user/contacts/add" this url for to save form data )------------------------------
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String saveContact(@ModelAttribute ContactForm contactForm , Authentication authentication) {
+    public String saveContact(@Valid @ModelAttribute ContactForm contactForm , BindingResult bindingResult,
+                              Authentication authentication, HttpSession httpSession) {
+
+
+        // validation check for input field
+        if(bindingResult.hasErrors()) {
+            httpSession.setAttribute("message", Message.builder()
+                    .content("Please fill all the required fields")
+                    .type(MessageType.red)
+                    .build());
+            return "user/add_contact";
+        }
 
         String username = Helper.getEmailOfLoggedInUser(authentication);
         User user=userService.getUserByEmail(username);
 
 
         Contact contact = new Contact();
+
         contact.setName(contactForm.getName());
         contact.setFavorite(contactForm.isFavorite());
         contact.setAddress(contactForm.getAddress());
@@ -56,6 +73,11 @@ public class ContactController {
 
         contactService.saveContact(contact);
         System.out.println(contactForm);
+
+        httpSession.setAttribute("message", Message.builder()
+                        .content("Your contact has been saved successfully")
+                        .type(MessageType.green)
+                        .build());
         return"redirect:/user/contacts/add";
     }
 
