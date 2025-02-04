@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title})}">
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
 <head>
     <title>
         Home Page
@@ -13,5 +13,9 @@
     <p>Thymeleaf is a modern server-side Java template engine for both web and standalone environments, capable of processing HTML, XML, JavaScript, CSS and even plain text.</p>
 
 </div>
+<script>
+    console.log("Home page");
+</script>
 </body>
+
 </html>

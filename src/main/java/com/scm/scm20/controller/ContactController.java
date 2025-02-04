@@ -8,9 +8,12 @@ import com.scm.scm20.helper.Helper;
 import com.scm.scm20.helper.Message;
 import com.scm.scm20.helper.MessageType;
 import com.scm.scm20.services.ContactService;
+import com.scm.scm20.services.ImageService;
 import com.scm.scm20.services.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.UUID;
+
 @Controller
 @RequestMapping("/user/contacts")
 public class ContactController {
@@ -28,6 +33,15 @@ public class ContactController {
     private ContactService contactService;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ImageService imageService;
+
+
+    Logger logger = LoggerFactory.getLogger(ContactController.class);
+
+
+
 //    get method : (call "/user/contacts/add" this url for view the add_contact.html page )------------------------------
     @RequestMapping("/add")
     public String addContact(Model model) {
@@ -58,6 +72,9 @@ public class ContactController {
         String username = Helper.getEmailOfLoggedInUser(authentication);
         User user=userService.getUserByEmail(username);
 
+        //upload image
+        String ImagePublicId= UUID.randomUUID().toString();
+        String fileURL=imageService.uploadImage(contactForm.getProfilePicture(),ImagePublicId );
 
         Contact contact = new Contact();
 
@@ -71,8 +88,14 @@ public class ContactController {
         contact.setLinkdInLink(contactForm.getLinkedInLink());
         contact.setFacebookLink(contactForm.getFacebookLink());
 
+        contact.setPicture(fileURL);
+
+       // logger.info("Profile Picture: "+fileURL);
+
         contactService.saveContact(contact);
-        System.out.println(contactForm);
+
+
+       // System.out.println(contactForm);
 
         httpSession.setAttribute("message", Message.builder()
                         .content("Your contact has been saved successfully")
