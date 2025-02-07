@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,10 +56,35 @@ public class ContactServiceImpl implements ContactService {
         // contactRepo.deleteById(id);
     }
 
+
+
     @Override
-    public List<Contact> searchContact(String name, String email, String phoneNumber) {
-        return List.of();
+    public Page<Contact> searchByName(String nameKeyword, int page, int size, String sortBy, String direction,User currentUser) {
+        Sort sort = Objects.equals(direction, "desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+
+        var pageable = PageRequest.of(page, size,sort);
+        return contactRepo.findByNameContainingAndUser(nameKeyword,pageable,currentUser);
     }
+
+    @Override
+    public Page<Contact> searchByEmail(String emailKeyword, int page, int size, String sortBy, String direction,User currentUser) {
+        Sort sort = Objects.equals(direction, "desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+
+        var pageable = PageRequest.of(page, size,sort);
+        return contactRepo.findByEmailContainingAndUser(emailKeyword,pageable,currentUser);
+    }
+
+    @Override
+    public Page<Contact> searchByPhoneNumber(String phoneNumberKeyword, int page, int size, String sortBy, String direction,User currentUser) {
+        Sort sort = Objects.equals(direction, "desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+
+        var pageable = PageRequest.of(page, size,sort);
+        return contactRepo.findByPhoneNumberContainingAndUser(phoneNumberKeyword,pageable,currentUser);
+    }
+
+
+
+
 
     @Override
     public List<Contact> getByUserId(String userId) {

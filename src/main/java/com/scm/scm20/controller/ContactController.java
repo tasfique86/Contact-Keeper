@@ -4,6 +4,7 @@ package com.scm.scm20.controller;
 import com.scm.scm20.entities.Contact;
 import com.scm.scm20.entities.User;
 import com.scm.scm20.forms.ContactForm;
+import com.scm.scm20.forms.ContactSearchForm;
 import com.scm.scm20.helper.AppConstents;
 import com.scm.scm20.helper.Helper;
 import com.scm.scm20.helper.Message;
@@ -116,6 +117,7 @@ public class ContactController {
 
     @RequestMapping
     public String viewContact(
+
             @RequestParam(value = "page",defaultValue = "0") int page,
             @RequestParam(value = "size",defaultValue = AppConstents.PAGE_SIZE+"") int size,
             @RequestParam(value = "sortBy",defaultValue = "name") String sortBy,
@@ -124,11 +126,58 @@ public class ContactController {
             Authentication authentication) {
        String userName= Helper.getEmailOfLoggedInUser(authentication); //--------here userName is email----------
        User user=userService.getUserByEmail(userName);
-       Page<Contact> pageContact = contactService.getByUser(user,page,size,sortBy,direction);
+       Page<Contact> contactPage = contactService.getByUser(user,page,size,sortBy,direction);
 
-        model.addAttribute("pageContact", pageContact);
+        model.addAttribute("contactPage", contactPage);
         model.addAttribute("pageSize", AppConstents.PAGE_SIZE);
+
+        model.addAttribute("contactSearchForm", new ContactSearchForm());
+
         return "user/view_contacts";
+    }
+
+
+    @RequestMapping("/search")
+    public String searchContact(
+
+            @ModelAttribute ContactSearchForm contactSearchForm,
+            @RequestParam(value = "page",defaultValue = "0") int page,
+            @RequestParam(value = "size",defaultValue = AppConstents.PAGE_SIZE+"") int size,
+            @RequestParam(value = "sortBy",defaultValue = "name") String sortBy,
+            @RequestParam(value = "direction",defaultValue = "asc") String direction,
+            Model model,
+            Authentication authentication
+            )
+    {
+
+        var field = contactSearchForm.getField();
+        var value = contactSearchForm.getKeyword();
+
+
+        logger.info("Field {} keyword {}", field , value);
+
+        User currrentUser=userService.getUserByEmail(Helper.getEmailOfLoggedInUser(authentication));
+
+        Page<Contact> contactPage=null;
+        if(field.equalsIgnoreCase("name")) {
+
+            contactPage=contactService.searchByName(value,page,size,sortBy,direction,currrentUser);
+
+        }
+        else if(field.equalsIgnoreCase("email")) {
+            contactPage=contactService.searchByEmail(value,page,size,sortBy,direction,currrentUser);
+        }
+        else if(field.equalsIgnoreCase("phoneNumber")) {
+            contactPage=contactService.searchByPhoneNumber(value,page,size,sortBy,direction,currrentUser);
+        }
+
+
+        logger.info("ContactPage  {}", contactPage);
+
+        model.addAttribute("contactPage", contactPage);
+        model.addAttribute("contactSearchForm", contactSearchForm);
+        model.addAttribute("pageSize", AppConstents.PAGE_SIZE);
+        return "user/search";
     }
 
 }
