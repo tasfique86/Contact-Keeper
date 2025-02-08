@@ -139,7 +139,6 @@ public class ContactController {
 
     @RequestMapping("/search")
     public String searchContact(
-
             @ModelAttribute ContactSearchForm contactSearchForm,
             @RequestParam(value = "page",defaultValue = "0") int page,
             @RequestParam(value = "size",defaultValue = AppConstents.PAGE_SIZE+"") int size,
