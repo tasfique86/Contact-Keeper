@@ -95,7 +95,9 @@
 
 
 
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <table
+                        data-th-if="!${contactPage.empty}"
+                        class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
 
@@ -145,9 +147,19 @@
 
                         </td>
                         <td class="px-6 py-4 space-x-2">
-                            <a href="#" class="font-medium   text-red-600 dark:text-red-500 hover:underline"><i class="fa-solid fa-trash "></i></a>
-                            <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline"><i class="fa-solid fa-pen-to-square"></i></a>
-                            <a href="#" class="font-medium text-gray-400 dark:text-gray-500 hover:underline"><i class="fa-solid fa-eye"></i></a>
+                            <a href="#" class="font-medium
+                             text-red-600 dark:text-red-500 hover:underline">
+                                <i class="fa-solid fa-trash "></i>
+                            </a>
+                            <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <button th:contact-id="${c.id}"
+                                    th:onclick="loadContactData(this.getAttribute('contact-id'))"
+
+                            >
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
                         </td>
                     </tr>
 
@@ -156,7 +168,8 @@
 
                 <!--                    pagination:-->
 
-                <div class="pagination_container flex items-center flex-col p-5 ">
+                <div    data-th-if="!${contactPage.empty}"
+                        class="pagination_container flex items-center flex-col p-5 ">
                     <nav aria-label="Page navigation example">
                         <ul class="inline-flex -space-x-px text-base h-10">
                             <!-- Previous Button -->
@@ -194,18 +207,24 @@
                     </nav>
                 </div>
 
+                <h1 class=" text-3xl text-gray-500 text-center p-5 " data-th-if="${contactPage.empty}">No Result Found</h1>
+
             </div>
 
-
-
         </div>
+
+        <div data-th-replace="~{user/contact_modals::contactModals}"></div>
 
 
     </div>
 </div>
 
+<script data-th-src="@{'/js/contact.js'}">
+
+</script>
+
 <script>
-    console.log("User Dashboard");
+    console.log("Search contact page");
 </script>
 </body>
 </html>
