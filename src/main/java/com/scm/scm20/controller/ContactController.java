@@ -22,10 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -49,7 +46,8 @@ public class ContactController {
 
 //    get method : (call "/user/contacts/add" this url for view the add_contact.html page )------------------------------
     @RequestMapping("/add")
-    public String addContact(Model model) {
+    public String addContact(Model model)
+    {
 
         ContactForm contactForm = new ContactForm();
 //        contactForm.setName("Tasfique");
@@ -59,11 +57,13 @@ public class ContactController {
         return "user/add_contact";
 
     }
+
+
     //  this  post method call from add_contact.html ( in form section) code : (call "/user/contacts/add" this url for to save form data )------------------------------
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public String saveContact(@Valid @ModelAttribute ContactForm contactForm , BindingResult bindingResult,
-                              Authentication authentication, HttpSession httpSession) {
-
+                              Authentication authentication, HttpSession httpSession)
+    {
 
         // validation check for input field
         if(bindingResult.hasErrors()) {
@@ -123,7 +123,8 @@ public class ContactController {
             @RequestParam(value = "sortBy",defaultValue = "name") String sortBy,
             @RequestParam(value = "direction",defaultValue = "asc") String direction,
             Model model,
-            Authentication authentication) {
+            Authentication authentication)
+    {
        String userName= Helper.getEmailOfLoggedInUser(authentication); //--------here userName is email----------
        User user=userService.getUserByEmail(userName);
        Page<Contact> contactPage = contactService.getByUser(user,page,size,sortBy,direction);
@@ -177,6 +178,23 @@ public class ContactController {
         model.addAttribute("contactSearchForm", contactSearchForm);
         model.addAttribute("pageSize", AppConstents.PAGE_SIZE);
         return "user/search";
+    }
+
+    //delete contact
+    @RequestMapping("/delete/{contactId}")
+    public String deleteContact(@PathVariable("contactId") String contactId ,
+                                HttpSession httpSession)
+    {
+        logger.info("Contact {} deleted", contactId);
+        contactService.deleteContact(contactId);
+
+        httpSession.setAttribute("message",
+                Message.builder()
+                        .content("Contact has been deleted successfully")
+                        .type(MessageType.green)
+                        .build()
+        );
+        return "redirect:/user/contacts";
     }
 
 }

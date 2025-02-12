@@ -42,6 +42,9 @@
 
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
 
+                    <div data-th-replace="~{message:: messagebox}" >
+
+                    </div>
                     <form
                             data-th-object="${contactSearchForm}"
                           data-th-action="@{/user/contacts/search}">
@@ -139,20 +142,26 @@
                             <td class="px-6 py-4">
                                 <div class="flex items-center ">
 
-                                    <a data-th-href="@{*{linkdInLink}}" target="_blank">
+                                    <a  data-th-href="@{*{linkdInLink}}" target="_blank">
                                         <i class="fa-brands w-5 h-5 fa-linkedin"></i></a>
                                     <a data-th-href="@{*{facebookLink}}" target="_blank " class="text-blue-600">
                                         <i class="fa-brands  w-5 h-5 fa-facebook"></i></a>
-                                    <div data-th-if="*{favorite}" class="text-yellow-300"  >
-                                        <i class="fa-solid fa-star w-5 h-5"></i></div>
+                                    <div data-th-if="*{favorite}" class="text-yellow-400"  >
+                                        <i class="fa-solid fa-heart"></i>
+                                    </div>
                                     <div data-th-unless="*{favorite}" class=" text-gray-200" >
-                                        <i class="fa-regular fa-star w-5 h-5"></i></div>
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
                                 </div>
 
                             </td>
                             <td class="px-6 py-4 space-x-2">
-                                <a href="#" class="font-medium   text-red-600 dark:text-red-500 hover:underline">
-                                    <i class="fa-solid fa-trash "></i></a>
+
+
+                                <button th:onclick="deleteContact([[${c.id}]])" class="font-medium   text-red-600 dark:text-red-500 hover:underline">
+                                    <i  class="fa-solid fa-trash "></i>
+                                </button>
+
                                 <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline">
                                     <i class="fa-solid fa-pen-to-square"></i></a>
                                 <button th:contact-id="${c.id}"
