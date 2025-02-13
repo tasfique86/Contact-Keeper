@@ -103,6 +103,7 @@ public class PageController {
         user.setAbout(userForm.getAbout());
         user.setPhoneNumber(userForm.getPhoneNumber());
         user.setPassword(userForm.getPassword());
+        user.setEnabled(false);  //optional
         user.setProfilePic("https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1738071894~exp=1738075494~hmac=e00af52fe6f2c2bc9cee05581407f4b21ce17958d780f890570b23ebe750ef8e&w=826");
 
 
