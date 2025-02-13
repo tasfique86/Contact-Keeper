@@ -142,10 +142,22 @@
                             <td class="px-6 py-4">
                                 <div class="flex items-center ">
 
-                                    <a  data-th-href="@{*{linkdInLink}}" target="_blank">
-                                        <i class="fa-brands w-5 h-5 fa-linkedin"></i></a>
-                                    <a data-th-href="@{*{facebookLink}}" target="_blank " class="text-blue-600">
-                                        <i class="fa-brands  w-5 h-5 fa-facebook"></i></a>
+                                    <a href="#" onclick="handleSocialClick(this, 'LinkedIn')"
+                                       data-th-href="*{linkdInLink}"
+                                       data-th-attr="data-url=*{linkdInLink}">
+                                        <i class="fa-brands w-5 h-5 fa-linkedin"></i>
+                                    </a>
+
+                                    <!-- Facebook Link -->
+                                    <a href="#" onclick="handleSocialClick(this, 'Facebook')"
+                                       data-th-href="*{facebookLink}"
+                                       data-th-attr="data-url=*{facebookLink}"
+                                       class="text-blue-600">
+                                        <i class="fa-brands w-5 h-5 fa-facebook"></i>
+                                    </a>
+
+
+
                                     <div data-th-if="*{favorite}" class="text-yellow-400"  >
                                         <i class="fa-solid fa-heart"></i>
                                     </div>
@@ -157,13 +169,16 @@
                             </td>
                             <td class="px-6 py-4 space-x-2">
 
-
+<!--                                delete contact-->
                                 <button th:onclick="deleteContact([[${c.id}]])" class="font-medium   text-red-600 dark:text-red-500 hover:underline">
                                     <i  class="fa-solid fa-trash "></i>
                                 </button>
 
-                                <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline">
+<!--                                edit contact-->
+                                <a data-th-href="@{'/user/contacts/view/'+*{id}}" href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline">
                                     <i class="fa-solid fa-pen-to-square"></i></a>
+
+<!--                                view contact-->
                                 <button th:contact-id="${c.id}"
                                         th:onclick="loadContactData(this.getAttribute('contact-id'))"
 

@@ -33,4 +33,5 @@ public class ContactForm {
 
 
     private MultipartFile profilePicture;
+    private String pictureUrl;
 }

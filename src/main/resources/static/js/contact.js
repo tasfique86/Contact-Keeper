@@ -58,8 +58,10 @@
                contactFavorite.style.display = "none";   // Hide if not favorite
            }
 
-           document.querySelector("#contact_linkedIn").href = data.linkdInLink || "#";
-           document.querySelector("#contact_facebook").href = data.facebookLink || "#";
+           document.querySelector("#contact_linkedIn").href = data.linkdInLink;
+           document.querySelector("#contact_linkedIn").innerHTML = data.linkdInLink;
+           document.querySelector("#contact_facebook").href= data.facebookLink;
+           document.querySelector("#contact_facebook").innerHTML= data.facebookLink;
            document.querySelector('#contact_phone').innerHTML= data.phoneNumber;
            openContactModal()
        }catch (e) {
@@ -93,17 +95,47 @@
 
 
     //message for link
+
     function handleSocialClick(element, platform) {
         let url = element.getAttribute("data-url");
         if (!url || url.trim() === "" || url === "null") {
-            Swal.fire({
-                title: "Not Available",
-                text: platform + " link is not available.",
-                icon: "warning",
-                confirmButtonText: "OK"  // Ensures it stays until clicked
-            });
-            return false; // Prevents navigation
-        } else {
-            window.open(url, "_blank"); // Open link in a new tab if available
+            alert(platform + " link is not available.");
+            return false; // Prevent navigation
         }
     }
+
+
+    // function handleSocialClick(event, element, platform) {
+    //     event.preventDefault(); // Stops the default anchor behavior
+    //
+    //     let url = element.getAttribute("data-url");
+    //
+    //     if (!url || url.trim() === "" || url === "null") {
+    //         Swal.fire({
+    //             title: platform + " link is not available.",
+    //             icon: "warning",
+    //             confirmButtonText: "OK",
+    //             allowOutsideClick: false
+    //         });
+    //
+    //         return false;
+    //     }
+    //
+    //     window.open(url, "_blank"); // Open if URL exists
+    // }
+
+
+    // function handleSocialClick(element, platform) {
+    //     let url = element.getAttribute("data-url");
+    //     if (!url || url.trim() === "" || url === "null") {
+    //         Swal.fire({
+    //             title: "Not Available",
+    //             text: platform + " link is not available.",
+    //             icon: "warning",
+    //             confirmButtonText: "OK"  // Ensures it stays until clicked
+    //         });
+    //         return false; // Prevents navigation
+    //     } else {
+    //         window.open(url, "_blank"); // Open link in a new tab if available
+    //     }
+    // }

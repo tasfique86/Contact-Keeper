@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.parameters.P;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +33,24 @@ public class ContactServiceImpl implements ContactService {
 
     @Override
     public Contact updateContact(Contact contact) {
-        return null;
+
+         var contactOld=   contactRepo.findById(contact.getId()).orElseThrow(() -> new ResourceNotFoundException("Contact not found"));
+
+         contactOld.setName(contact.getName());
+         contactOld.setEmail(contact.getEmail());
+         contactOld.setAddress(contact.getAddress());
+         contactOld.setCloudinaryImagePublicId(contact.getCloudinaryImagePublicId());
+         contactOld.setPicture(contact.getPicture());
+         contactOld.setFacebookLink(contact.getFacebookLink());
+         contactOld.setSocialLinks(contact.getSocialLinks());
+         contactOld.setDescription(contact.getDescription());
+         contactOld.setPhoneNumber(contact.getPhoneNumber());
+         contactOld.setFavorite(contact.isFavorite() );
+
+       //  contactOld.setSocialLinks(contact.getSocialLinks());
+
+         return contactRepo.save(contactOld);
+
     }
 
     @Override

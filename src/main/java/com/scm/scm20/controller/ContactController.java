@@ -51,6 +51,7 @@ public class ContactController {
 
         ContactForm contactForm = new ContactForm();
 //        contactForm.setName("Tasfique");
+//        contactForm.setEmail("Tasfique@");
 //        contactForm.setFavorite(true);
 
         model.addAttribute("contactForm", contactForm);
@@ -77,11 +78,6 @@ public class ContactController {
         String username = Helper.getEmailOfLoggedInUser(authentication);
         User user=userService.getUserByEmail(username);
 
-        //------------------upload image
-
-        String ImagePublicId= UUID.randomUUID().toString();
-        String fileURL=imageService.uploadImage(contactForm.getProfilePicture(),ImagePublicId );
-
 
 
         Contact contact = new Contact();
@@ -97,8 +93,16 @@ public class ContactController {
         contact.setLinkdInLink(contactForm.getLinkedInLink());
         contact.setFacebookLink(contactForm.getFacebookLink());
 
-        contact.setPicture(fileURL);
-        contact.setCloudinaryImagePublicId(ImagePublicId);
+
+        //------------------upload image
+        if(contactForm.getProfilePicture()==null && !contactForm.getProfilePicture().isEmpty()) {
+            String ImagePublicId= UUID.randomUUID().toString();
+            String fileURL=imageService.uploadImage(contactForm.getProfilePicture(),ImagePublicId );
+
+            contact.setPicture(fileURL);
+            contact.setCloudinaryImagePublicId(ImagePublicId);
+        }
+
 
 
        // logger.info("Profile Picture: "+fileURL);
@@ -196,5 +200,84 @@ public class ContactController {
         );
         return "redirect:/user/contacts";
     }
+
+//    update contact
+    @GetMapping("/view/{contactId}")
+    public String updateContactFormView(
+            @PathVariable("contactId") String contactId,
+            Model model){
+
+        var contact=contactService.getContactById(contactId);
+
+        ContactForm contactForm=new ContactForm();
+
+        contactForm.setName(contact.getName());
+        contactForm.setFavorite(contact.isFavorite());
+        contactForm.setAddress(contact.getAddress());
+        contactForm.setEmail(contact.getEmail());
+        contactForm.setAbout(contact.getDescription());
+        contactForm.setPhoneNumber(contact.getPhoneNumber());
+        contactForm.setLinkedInLink(contact.getLinkdInLink());
+        contactForm.setFacebookLink(contact.getFacebookLink());
+        contactForm.setPictureUrl(contact.getPicture());
+
+
+        model.addAttribute("contactForm", contactForm);
+        model.addAttribute("contactId", contactId);
+
+        return "user/update_contact_view";
+    }
+
+//update contact submit response
+    @RequestMapping(value ="/update/{contactId}",method = RequestMethod.POST)
+    public String updateContact(@PathVariable("contactId") String contactId,
+                                @Valid
+                                @ModelAttribute ContactForm contactForm,
+                                BindingResult bindingResult,
+                                HttpSession httpSession,
+                                Model model){
+
+        if(bindingResult.hasErrors()) {
+            return "user/update_contact_view";
+        }
+
+       Contact newContact = contactService.getContactById(contactId);
+
+       newContact.setId(contactId);
+
+       newContact.setName(contactForm.getName());
+       newContact.setFavorite(contactForm.isFavorite());
+       newContact.setAddress(contactForm.getAddress());
+       newContact.setEmail(contactForm.getEmail());
+       newContact.setFacebookLink(contactForm.getFacebookLink());
+       newContact.setLinkdInLink(contactForm.getLinkedInLink());
+       newContact.setPhoneNumber(contactForm.getPhoneNumber());
+       newContact.setDescription(contactForm.getAbout());
+
+
+
+
+       //newContact.setCloudinaryImagePublicId(contactForm.getPictureUrl());
+
+//        image proccess
+        if(contactForm.getProfilePicture() !=null && !contactForm.getProfilePicture().isEmpty() ){
+
+            String fileName=UUID.randomUUID().toString();
+            String imageURL= imageService.uploadImage(contactForm.getProfilePicture(),fileName);
+
+            newContact.setCloudinaryImagePublicId(fileName);
+            newContact.setPicture(imageURL);
+            contactForm.setPictureUrl(imageURL);
+        }
+
+        var updateContact= contactService.updateContact(newContact);
+        logger.info("Contact {} updated", updateContact);
+        httpSession.setAttribute("message", Message.builder()
+                .content("Contact has been updated successfully")
+                .type(MessageType.green)
+                .build());
+        return "redirect:/user/contacts/view/" + contactId;
+    }
+
 
 }

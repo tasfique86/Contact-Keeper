@@ -147,13 +147,17 @@
 
                         </td>
                         <td class="px-6 py-4 space-x-2">
-                            <a href="#" class="font-medium
-                             text-red-600 dark:text-red-500 hover:underline">
-                                <i class="fa-solid fa-trash "></i>
-                            </a>
-                            <a href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
+
+                            <!--                                delete contact-->
+                            <button th:onclick="deleteContact([[${c.id}]])" class="font-medium   text-red-600 dark:text-red-500 hover:underline">
+                                <i  class="fa-solid fa-trash "></i>
+                            </button>
+
+                            <!--                                edit contact-->
+                            <a data-th-href="@{'/user/contacts/view/'+*{id}}" href="#" class="font-medium text-green-600 dark:text-green-500 hover:underline">
+                                <i class="fa-solid fa-pen-to-square"></i></a>
+
+                            <!--                                view contact-->
                             <button th:contact-id="${c.id}"
                                     th:onclick="loadContactData(this.getAttribute('contact-id'))"
 
