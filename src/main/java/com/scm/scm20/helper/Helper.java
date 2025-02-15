@@ -42,4 +42,9 @@ public class Helper {
         }
 
     }
+
+    public static String getLinkForEmailVerification(String emailTokem) {
+        String link="http://localhost:8080/auth/verify-email?token="+emailTokem;
+        return link;
+    }
 }

@@ -53,6 +53,9 @@ public class User implements UserDetails {
     private String providerUserId;
 
 
+    private String emailToken;
+
+
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval=true)
     private List<Contact> contacts=new ArrayList<>();

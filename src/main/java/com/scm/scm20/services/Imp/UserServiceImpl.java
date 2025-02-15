@@ -2,8 +2,10 @@ package com.scm.scm20.services.Imp;
 
 import com.scm.scm20.entities.User;
 import com.scm.scm20.helper.AppConstents;
+import com.scm.scm20.helper.Helper;
 import com.scm.scm20.helper.ResourceNotFoundException;
 import com.scm.scm20.repositories.UserRepositories;
+import com.scm.scm20.services.EmailService;
 import com.scm.scm20.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService;
+
     @Override
     public User saveUser(User user) {
 
@@ -39,7 +44,18 @@ public class UserServiceImpl implements UserService {
 
         //set user role
         user.setRoleList(List.of(AppConstents.ROLE_USER));
-        return userRepositories.save(user);
+
+
+        String emailToken= UUID.randomUUID().toString();
+        String emailLink= Helper.getLinkForEmailVerification(emailToken);
+
+        user.setEmailToken(emailToken);
+
+        User saveUser= userRepositories.save(user);
+
+        emailService.sendEmail(saveUser.getEmail(),"Contact Keeper account Verification link",emailLink);
+
+        return saveUser;
     }
 
     @Override
