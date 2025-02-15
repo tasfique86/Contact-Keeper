@@ -95,7 +95,7 @@ public class ContactController {
 
 
         //------------------upload image
-        if(contactForm.getProfilePicture()==null && !contactForm.getProfilePicture().isEmpty()) {
+        if(contactForm.getProfilePicture()==null || !contactForm.getProfilePicture().isEmpty()) {
             String ImagePublicId= UUID.randomUUID().toString();
             String fileURL=imageService.uploadImage(contactForm.getProfilePicture(),ImagePublicId );
 
