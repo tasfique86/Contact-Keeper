@@ -32,16 +32,15 @@
         <div  data-th-replace="~{user/sidebar::sidebar}"></div>
     </div>
 
-    <div class="sm:pl-64 pt-20" style="height: 10000px">
-        <h2 class="text-5xl">Welcome to Search Contact</h2>
+    <div class="sm:pl-64 pt-20">
+
+        <h2 class="text-3xl">Search Result</h2>
+
         <div class="contacts_container p-5">
-
-
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-
+            <div div class=" flex md:flex-row flex-col items-center px-4  justify-between bg-white dark:bg-gray-900 rounded-md ">
                 <form data-th-object="${contactSearchForm}"
                       data-th-action="@{/user/contacts/search}">
-                    <div class="p-5 flex items-center space-x-5 flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
+                    <div class="p-5 flex items-center space-x-5 flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4">
 
 
                         <!--select box-->
@@ -90,6 +89,20 @@
                     </div>
 
                 </form>
+                <div>
+                    <button type="button"
+                            onclick="exportData()"
+                            class="px-3 py-2 bg-green-800 hover:bg-green-600 text-white rounded-lg">
+                        Export</button>
+                </div>
+            </div>
+
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+                <div data-th-replace="~{message:: messagebox}" ></div>
+
+
+
 
 
 
@@ -97,6 +110,7 @@
 
                 <table
                         data-th-if="!${contactPage.empty}"
+                        id="contacts_table"
                         class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -223,12 +237,21 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@linways/table-to-excel@1.0.4/dist/tableToExcel.min.js"></script>
 <script data-th-src="@{'/js/contact.js'}">
 
 </script>
 
 <script>
-    console.log("Search contact page");
+    function exportData(){
+        // alert("Export Data");
+        TableToExcel.convert(document.getElementById("contacts_table"), {
+            name: "contacts.xlsx",
+            sheet: {
+                name: "Sheet 1"
+            }
+        });
+    }
 </script>
 </body>
 </html>
