@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+<head>
+  <title>
+    error Page
+  </title>
+</head>
+
+<body>
+<div id="content" class="text-center   mt-5 md:w-1/2 mx-auto " >
+ <div data-th-replace="~{message :: messagebox}"></div>
+  <p class="dark:text-gray-400 text-gray-600 pb-5 ">Please try again later</p>
+  <a data-th-href="@{'/login'}"
+     type="button"
+     class="text-white  bg-gray-800 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300
+     font-medium rounded-md text-sm px-5 py-3 text-center dark:bg-blue-800 dark:hover:bg-blue-600 dark:focus:ring-blue-800"
+  >Login</a>
+
+
+</div>
+<script>
+  console.log("error page");
+</script>
+</body>
+
+</html>
