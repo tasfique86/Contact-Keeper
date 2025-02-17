@@ -1,6 +1,7 @@
 package com.scm.scm20.controller;
 
 import com.scm.scm20.entities.User;
+import com.scm.scm20.forms.ContactForm;
 import com.scm.scm20.helper.Helper;
 import com.scm.scm20.services.UserService;
 import org.slf4j.Logger;
@@ -50,5 +51,19 @@ public class UserController {
         model.addAttribute("loggedInUser",user);
         //fetch data from database : email or userName,name.......
         return "user/profile";
+    }
+
+    @RequestMapping("/message")
+    public String addContact(Model model)
+    {
+
+        ContactForm contactForm = new ContactForm();
+//        contactForm.setName("Tasfique");
+//        contactForm.setEmail("Tasfique@");
+//        contactForm.setFavorite(true);
+
+        model.addAttribute("contactForm", contactForm);
+        return "user/message";
+
     }
 }
