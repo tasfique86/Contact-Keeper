@@ -2,7 +2,9 @@ package com.scm.scm20.controller;
 
 import com.scm.scm20.entities.User;
 import com.scm.scm20.forms.ContactForm;
+import com.scm.scm20.forms.EmailForm;
 import com.scm.scm20.helper.Helper;
+import com.scm.scm20.services.EmailService;
 import com.scm.scm20.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -53,17 +57,22 @@ public class UserController {
         return "user/profile";
     }
 
-    @RequestMapping("/message")
-    public String addContact(Model model)
-    {
+//    @RequestMapping("/message")
+//    public String addContact(Model model)
+//    {
+//
+//        ContactForm contactForm = new ContactForm();
+////        contactForm.setName("Tasfique");
+////        contactForm.setEmail("Tasfique@");
+////        contactForm.setFavorite(true);
+//
+//        model.addAttribute("contactForm", contactForm);
+//        return "user/message";
+//
+//    }
 
-        ContactForm contactForm = new ContactForm();
-//        contactForm.setName("Tasfique");
-//        contactForm.setEmail("Tasfique@");
-//        contactForm.setFavorite(true);
 
-        model.addAttribute("contactForm", contactForm);
-        return "user/message";
 
-    }
+
+
 }

@@ -13,6 +13,7 @@
 
 <div id="content">
     <!--    siderbar-->
+
     <!--if uesr is logged in : sidebar-->
     <div th:if="${loggedInUser}">
         <div  data-th-replace="~{user/sidebar::sidebar}"></div>
@@ -24,6 +25,7 @@
             <div class=" col-span-12 md:col-span-6  ">
                 <div class="card block  p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-700 dark:hover:bg-gray-800">
 
+
                     <div data-th-replace="~{message::messagebox}"></div>
 
                     <div class="text-center ">
@@ -33,8 +35,8 @@
                     <!--                  add contact form-->
 
                     <form
-                            data-th-action="@{'/user/contacts/add'}"
-                            data-th-object="${contactForm}"
+                            data-th-action="@{'/user/email/send'}"
+                            data-th-object="${emailForm}"
                             method="post" enctype="multipart/form-data"
 
                             class="mt-8">
@@ -44,36 +46,33 @@
                         <div class="mb-3">
                             <label
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                <i class="fa-solid fa-paper-plane px-2"></i>
-                                Send to *</label>
-                            <div >
+                                Send to</label>
+                            <div class="relative mb-1">
 
                                 <input type="text"
-
+                                       data-th-field="*{to}"
                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-                                      focus:border-blue-500 block w-full  p-2.5  dark:bg-gray-700 dark:border-gray-600
+                                      focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600
                                       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                        placeholder="name@gmail.com">
                             </div>
                             <!--                           this for error messages-->
-
+                            <p class="text-red-600"
+                               data-th-if="${#fields.hasErrors('to')}"
+                               data-th-errors="*{to}">
+                                Invalid email
+                            </p>
                         </div>
 
                         <!--                   Subject-->
                         <div class="mb-3">
                             <label
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Subject</label>
-                            <div >
-
-                                <input type="text"
-
-                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-                                      focus:border-blue-500 block w-full p-2.5   dark:bg-gray-700 dark:border-gray-600
-                                      dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="subject">
-                            </div>
-                            <!--                           this is for error messages-->
+                               Subject </label>
+                            <textarea
+                                    data-th-field="*{subject}"
+                                    rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+                           dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Subject..."></textarea>
 
                         </div>
 
@@ -84,15 +83,19 @@
                         <div class="mb-3">
                             <label
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                <i class="fa-solid fa-envelope px-2"></i>
                                 Message </label>
                             <textarea
-
+                                    data-th-field="*{body}"
                                     rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-                           dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Address fo the contact..."></textarea>
+                           dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write here..."></textarea>
+
+                            <p class="text-red-600"
+                               data-th-if="${#fields.hasErrors('body')}"
+                               data-th-errors="*{to}">
+                                write something here
+                            </p>
 
                         </div>
-
                         <!--                       about-->
 
 
@@ -101,6 +104,7 @@
                             <button class="px-3 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-600">
                                Send
                             </button>
+
                             <button type="reset" class="px-4 py-2 bg-red-800 text-white rounded-md hover:bg-red-600">
                                 Reset
                             </button>
@@ -119,10 +123,9 @@
 
 
 
-<script data-th-src="@{'/js/admin.js'}">
-</script>
+
 <script>
-    console.log("this is profile page");
+    console.log("this is mail page");
 </script>
 </body>
 </html>

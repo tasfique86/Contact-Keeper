@@ -11,7 +11,7 @@ import java.security.Principal;
 
 public class Helper {
 
-
+   //-------------------find authenticate username
     public static String getEmailOfLoggedInUser(Authentication authentication) {
         Logger logger = LoggerFactory.getLogger(Helper.class);
 
@@ -43,6 +43,8 @@ public class Helper {
 
     }
 
+
+    //-----generate a email token link
     public static String getLinkForEmailVerification(String emailTokem) {
         String link="http://localhost:8080/auth/verify-email?token="+emailTokem;
         return link;
