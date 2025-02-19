@@ -28,6 +28,9 @@ public class Contact {
     private String linkdInLink;
     private String facebookLink;
 
+    // version 2
+    private String birthday;
+
     private String cloudinaryImagePublicId;
 
     @ManyToOne

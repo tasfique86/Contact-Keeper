@@ -21,4 +21,6 @@ public interface ContactService {
     List<Contact> getByUserId(String userId);
 
    Page<Contact> getByUser(User user, int page, int size,String sortBy,String direction);
+
+    public List<Contact> getByUserIdSearchByFavorite(String currentUser);
 }

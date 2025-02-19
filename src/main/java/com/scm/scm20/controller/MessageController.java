@@ -92,8 +92,8 @@ public class MessageController {
     public String emailForMultiPerson( Model model){
 
         EmailFormForMultiple emailForm = new EmailFormForMultiple();
-        String[] em={"camouflagetr1217@gmail.com", "mehrazzhossin@gmail.com,nahidhossainmd99@gmail.com"};
-        emailForm.setTo(em);
+     //   String[] em={"camouflagetr1217@gmail.com", "mehrazzhossin@gmail.com,nahidhossainmd99@gmail.com"};
+    //    emailForm.setTo(em);
         model.addAttribute("emailForm", emailForm);
         return "user/message_for_multiple";
     }

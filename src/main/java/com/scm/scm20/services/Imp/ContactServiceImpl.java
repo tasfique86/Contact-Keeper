@@ -116,4 +116,10 @@ public class ContactServiceImpl implements ContactService {
         var pageable = PageRequest.of(page, size,sort);
         return contactRepo.findByUser(user,pageable);
     }
+
+    public List<Contact> getByUserIdSearchByFavorite(String currentUser) {
+
+        return  contactRepo.findFavoriteContactsByUserId(currentUser);
+    }
+
 }

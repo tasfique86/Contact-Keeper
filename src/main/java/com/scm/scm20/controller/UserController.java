@@ -1,9 +1,11 @@
 package com.scm.scm20.controller;
 
+import com.scm.scm20.entities.Dashboard;
 import com.scm.scm20.entities.User;
 import com.scm.scm20.forms.ContactForm;
 import com.scm.scm20.forms.EmailForm;
 import com.scm.scm20.helper.Helper;
+import com.scm.scm20.services.ContactService;
 import com.scm.scm20.services.EmailService;
 import com.scm.scm20.services.UserService;
 import org.slf4j.Logger;
@@ -27,6 +29,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ContactService contactService;
+
     // This is for loading user data for every /user/** request
     @ModelAttribute("loggedInUser")
     public void addLoggedInUserInformation(Model model, Authentication authentication){
@@ -38,7 +43,23 @@ public class UserController {
 
     //user dashboard page using GET method
     @RequestMapping(value = "/dashboard")
-    public String userDashboradRequest( ){
+    public String userDashboradRequest(Model model, Authentication authentication ){
+
+        String currentUserEmail= Helper.getEmailOfLoggedInUser(authentication);
+        logger.info("Load user information from "+currentUserEmail);
+        User user=userService.getUserByEmail(currentUserEmail);
+
+
+        int totalContacts = contactService.getByUserId(user.getUserId()).size();
+        int totalFavoriteConatacts = contactService.getByUserIdSearchByFavorite(user.getUserId()).size();
+
+        logger.info("Total contacts: "+totalContacts);
+        logger.info("Total favorite contacts: "+totalFavoriteConatacts);
+
+        Dashboard dashboard=new Dashboard();
+        dashboard.setTotalContact(totalContacts);
+        dashboard.setTotalFavourite(totalFavoriteConatacts);
+        model.addAttribute("dashboard",dashboard);
 
         return "user/dashboard";
     }
