@@ -25,9 +25,10 @@ class ApplicationTests {
 
 	@Test
 	void sendEmailTest() {
+		String[] eamils = {"camouflagetr1217@gmail.com", "mehrazzhossin@gmail.com"};
 		//emailService.sendEmail("camouflagetr1217@gmail.com","Just testing perpose","I,m TR 86");
 		String html = ""+"<h1 style='color:red'> Hello TR86</h1>";
-		emailService.sendEmailHtml("camouflagetr1217@gmail.com","Just testing perpose",html);
+		emailService.sendEmail(eamils,"Just testing  purpose","What's up bro");
 	}
 
 

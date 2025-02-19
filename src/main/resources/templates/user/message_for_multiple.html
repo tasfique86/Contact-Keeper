@@ -35,7 +35,7 @@
                     <!--                  add contact form-->
 
                     <form
-                            data-th-action="@{'/user/email/send'}"
+                            data-th-action="@{'/user/email/send_multiple'}"
                             data-th-object="${emailForm}"
                             method="post" enctype="multipart/form-data"
 
@@ -44,23 +44,21 @@
 
                         <!--                        Send to-->
                         <div class="mb-3">
-                            <label
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Send to</label>
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Send to (Comma-separated emails)
+                            </label>
                             <div class="relative mb-1">
-
                                 <input type="text"
                                        data-th-field="*{to}"
+                                       id="emailInput"
                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
-                                      focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600
-                                      dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                       placeholder="name@gmail.com">
+                      focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+                      dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                       placeholder="name1@gmail.com, name2@gmail.com">
+                                <input type="hidden" name="to" id="hiddenToEmails">
                             </div>
-                            <!--                           this for error messages-->
-                            <p class="text-red-600"
-                               data-th-if="${#fields.hasErrors('to')}"
-                               data-th-errors="*{to}">
-                                Invalid email
+                            <p class="text-red-600" id="emailError" style="display: none;">
+                                Invalid email format. Please enter valid email addresses separated by commas.
                             </p>
                         </div>
 
@@ -68,7 +66,7 @@
                         <div class="mb-3">
                             <label
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                               Subject </label>
+                                Subject </label>
                             <textarea
                                     data-th-field="*{subject}"
                                     rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
@@ -97,30 +95,30 @@
 
                         </div>
                         <!--                       attachment -->
-<!--                        <div class="mb-2">-->
+                        <!--                        <div class="mb-2">-->
 
 
-<!--                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Upload contact image</label>-->
-<!--                            <input data-th-field="*{attachment}"-->
-<!--                                   id="image_file_input"-->
-<!--                                   class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50-->
-<!--                           dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"-->
-<!--                                   type="file">-->
+                        <!--                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Upload contact image</label>-->
+                        <!--                            <input data-th-field="*{attachment}"-->
+                        <!--                                   id="image_file_input"-->
+                        <!--                                   class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50-->
+                        <!--                           dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"-->
+                        <!--                                   type="file">-->
 
-<!--                            <img-->
-<!--                                    class="max-h-52 mx-auto rounded-lg shadow m-3"-->
-<!--                                    src=""-->
-<!--                                    id="upload_image_preview"-->
-<!--                                    alt=""-->
-<!--                            />-->
+                        <!--                            <img-->
+                        <!--                                    class="max-h-52 mx-auto rounded-lg shadow m-3"-->
+                        <!--                                    src=""-->
+                        <!--                                    id="upload_image_preview"-->
+                        <!--                                    alt=""-->
+                        <!--                            />-->
 
-<!--                        </div>-->
+                        <!--                        </div>-->
 
 
 
-                        <div type="submit" class="button-container text-center mb-3 flex space-x-5 justify-center items-center">
+                        <div  class="button-container text-center mb-3 flex space-x-5 justify-center items-center">
                             <button class="px-3 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-600">
-                               Send
+                                Send
                             </button>
 
                             <button type="reset" class="px-4 py-2 bg-red-800 text-white rounded-md hover:bg-red-600">
@@ -139,11 +137,34 @@
     </div>
 </div>
 
+<script>
+    document.querySelector("form").addEventListener("submit", function(event) {
+        let emailInput = document.getElementById("emailInput").value.trim();
+        let emailArray = emailInput.split(",").map(email => email.trim());
 
+        // Email validation regex pattern
+        let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        // Validate each email
+        let invalidEmails = emailArray.filter(email => !emailPattern.test(email));
+
+        if (invalidEmails.length > 0) {
+            event.preventDefault();  // ⛔ Prevent form submission
+            document.getElementById("emailError").style.display = "block";
+            document.getElementById("emailError").textContent =
+                "Invalid email(s): " + invalidEmails.join(", ");
+            return;
+        }
+
+        console.log("Valid Emails:", emailArray); // ✅ Prints only valid emails to console
+        document.getElementById("hiddenToEmails").value = JSON.stringify(emailArray);
+        document.getElementById("emailError").style.display = "none"; // Hide error if valid
+    });
+</script>
 
 
 <script>
-    console.log("this is mail page");
+    console.log("this is multi mail page");
 </script>
 </body>
 </html>
