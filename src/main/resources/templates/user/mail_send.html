@@ -20,6 +20,40 @@
     </div>
 
     <div class="sm:pl-64 pt-20">
+
+
+
+        <div class="grid grid-cols-12 mb-5 " >
+            <div class="col-span-3 "></div>
+            <div class=" col-span-12 md:col-span-6  ">
+                <div class="card block space-x-2  flex-auto mt-5 p-4
+        bg-white border border-gray-200 rounded-lg shadow-sm  dark:bg-gray-800 dark:border-gray-700 ">
+                    <a data-th-href="@{'/user/email/send'}"
+                       class="items-center p-2 text-gray-900 dark:hover:text-black rounded-lg dark:text-white  dark:bg-gray-900 hover:bg-orange-300 group">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span class="flex-1 ms-2 whitespace-nowrap">Normal mail</span>
+                    </a>
+                    <a data-th-href="@{'/user/email/send_multiple'}"
+                       class="items-center p-2 text-gray-900 dark:hover:text-black rounded-lg dark:text-white  dark:bg-gray-900 hover:bg-orange-300 group">
+                        <i class="fa-solid fa-users"></i>
+                        <span class="flex-1 ms-2 whitespace-nowrap">Multi-Person mail</span>
+                    </a>
+                    <a data-th-href="@{'/user/email/schedule'}"
+                       class="items-center p-2 text-gray-900 dark:hover:text-black rounded-lg dark:text-white  dark:bg-gray-900 hover:bg-orange-300 group">
+                        <i class="fa-solid fa-clock"></i>
+                        <span class="flex-1 ms-2 whitespace-nowrap">Scheduled mail</span>
+                    </a>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+
         <div class="grid grid-cols-12 " >
             <div class="col-span-3 "></div>
             <div class=" col-span-12 md:col-span-6  ">
@@ -28,8 +62,8 @@
 
                     <div data-th-replace="~{message::messagebox}"></div>
 
-                    <div class="text-center ">
-                        <h2 class="text-2xl font-semibold ">Send Mail</h2>
+                    <div class="text-center flex items-center justify-center space-x-2">
+                        <i class="fa-solid  text-2xl fa-envelope"></i> <h2 class="  text-2xl font-semibold ">Normal Mail</h2>
                     </div>
 
                     <!--                  add contact form-->

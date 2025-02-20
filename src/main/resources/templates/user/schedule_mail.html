@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+<head>
+  <title  >
+    Add Contact
+  </title>
+</head>
+
+
+<body>
+
+
+
+<div id="content">
+  <!--    siderbar-->
+
+  <!--if uesr is logged in : sidebar-->
+  <div th:if="${loggedInUser}">
+    <div  data-th-replace="~{user/sidebar::sidebar}"></div>
+  </div>
+
+  <div class="sm:pl-64 pt-20">
+
+    <div class="grid grid-cols-12 mb-5 " >
+      <div class="col-span-3 "></div>
+      <div class=" col-span-12 md:col-span-6  ">
+        <div class="card block space-x-2  flex-auto mt-5 p-4
+        bg-white border border-gray-200 rounded-lg shadow-sm  dark:bg-gray-800 dark:border-gray-700 ">
+          <a data-th-href="@{'/user/email/send'}"
+             class="items-center p-2 text-gray-900 dark:hover:text-black rounded-lg dark:text-white  dark:bg-gray-900 hover:bg-orange-300 group">
+            <i class="fa-solid fa-envelope"></i>
+            <span class="flex-1 ms-2 whitespace-nowrap">Normal mail</span>
+          </a>
+          <a data-th-href="@{'/user/email/send_multiple'}"
+             class="items-center p-2 text-gray-900 dark:hover:text-black rounded-lg dark:text-white  dark:bg-gray-900 hover:bg-orange-300 group">
+            <i class="fa-solid fa-users"></i>
+            <span class="flex-1 ms-2 whitespace-nowrap">Multi-Person mail</span>
+          </a>
+          <a data-th-href="@{'/user/email/schedule'}"
+             class="items-center p-2 text-gray-900 dark:hover:text-black rounded-lg dark:text-white  dark:bg-gray-900 hover:bg-orange-300 group">
+            <i class="fa-solid fa-clock"></i>
+            <span class="flex-1 ms-2 whitespace-nowrap">Scheduled mail</span>
+          </a>
+
+
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="grid grid-cols-12 " >
+      <div class="col-span-3 "></div>
+      <div class=" col-span-12 md:col-span-6  ">
+        <div class="card block  p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-700 dark:border-gray-700 dark:hover:bg-gray-800">
+
+
+          <div data-th-replace="~{message::messagebox}"></div>
+
+          <div class="text-center flex items-center justify-center space-x-2">
+            <i class="fa-solid  text-2xl fa-clock"></i> <h2 class="  text-2xl font-semibold ">Schedule Mail</h2>
+          </div>
+
+          <!--                  add contact form-->
+
+          <form
+                  data-th-action="@{'/user/email/schedule'}"
+                  data-th-object="${emailForm}"
+                  method="post" enctype="multipart/form-data"
+
+                  class="mt-8">
+
+
+            <!--                        Send to-->
+            <div class="mb-3">
+              <label
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Send to</label>
+              <div class="relative mb-1">
+
+                <input type="text"
+                       data-th-field="*{to}"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+                                      focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600
+                                      dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                       placeholder="name@gmail.com">
+              </div>
+              <!--                           this for error messages-->
+              <p class="text-red-600"
+                 data-th-if="${#fields.hasErrors('to')}"
+                 data-th-errors="*{to}">
+                Invalid email
+              </p>
+            </div>
+
+            <!--                   Subject-->
+            <div class="mb-3">
+              <label
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Subject </label>
+              <textarea
+                      data-th-field="*{subject}"
+                      rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+                           dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Subject..."></textarea>
+
+            </div>
+
+
+
+
+            <!--                        Message    -->
+            <div class="mb-3">
+              <label
+                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Message </label>
+              <textarea
+                      data-th-field="*{body}"
+                      rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+                           dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write here..."></textarea>
+
+              <p class="text-red-600"
+                 data-th-if="${#fields.hasErrors('body')}"
+                 data-th-errors="*{to}">
+                write something here
+              </p>
+
+            </div>
+            <!--                       attachment -->
+            <!--                        <div class="mb-2">-->
+
+
+            <!--                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Upload contact image</label>-->
+            <!--                            <input data-th-field="*{attachment}"-->
+            <!--                                   id="image_file_input"-->
+            <!--                                   class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50-->
+            <!--                           dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"-->
+            <!--                                   type="file">-->
+
+            <!--                            <img-->
+            <!--                                    class="max-h-52 mx-auto rounded-lg shadow m-3"-->
+            <!--                                    src=""-->
+            <!--                                    id="upload_image_preview"-->
+            <!--                                    alt=""-->
+            <!--                            />-->
+
+            <!--                        </div>-->
+
+
+
+            <div type="submit" class="button-container text-center mb-3 flex space-x-5 justify-center items-center">
+              <button class="px-3 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-600">
+                Send
+              </button>
+
+              <button type="reset" class="px-4 py-2 bg-red-800 text-white rounded-md hover:bg-red-600">
+                Reset
+              </button>
+            </div>
+
+          </form>
+
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<script>
+  console.log("this is mail page");
+</script>
+</body>
+</html>

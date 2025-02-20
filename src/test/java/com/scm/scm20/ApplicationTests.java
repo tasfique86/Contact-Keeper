@@ -6,6 +6,7 @@ import com.scm.scm20.entities.User;
 import com.scm.scm20.forms.UserForm;
 import com.scm.scm20.services.ContactService;
 import com.scm.scm20.services.EmailService;
+import com.scm.scm20.services.Imp.EmailSchedulerService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -13,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
@@ -51,7 +54,7 @@ class ApplicationTests {
 //	hojaif contact id
 	//3ad9cda7-519a-4511-928b-0d8112ef5981
 
-	@Test
+	@Disabled
 	void contactResult(){
 
 //    Contact contact= contactService.getContactById("3ad9cda7-519a-4511-928b-0d8112ef5981");
@@ -70,6 +73,19 @@ class ApplicationTests {
 			logger.info(contact.getEmail());
 		}
 
+
+	}
+
+	@Autowired
+	EmailSchedulerService emailSchedulerService;
+
+	@Test
+	public void schudelEmailTest(){
+
+		String dateTime ="2025-02-20 14:27";
+		LocalDateTime sendTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+		emailSchedulerService.scheduledFutureEmail("camouflagetr1217@gmail.com","Just testing  purpose of scheduler mail","What's up bro",sendTime);
+		logger.info("Message send successfully "+dateTime);
 
 	}
 

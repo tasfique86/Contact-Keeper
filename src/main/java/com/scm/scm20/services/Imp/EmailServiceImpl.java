@@ -43,6 +43,9 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(message);
         logger.info(message.toString());
 
+        logger.info("Email sent to " + to);
+        logger.info("send from email service  ");
+
 
 //        SimpleMailMessage message = new SimpleMailMessage();
 //        message.setTo(to);
@@ -78,6 +81,9 @@ public class EmailServiceImpl implements EmailService {
             helper.setText(htmlContent, true);
             helper.setFrom(domainName);
             mailSender.send(message);
+
+            logger.info("Email sent to " + to);
+            logger.info("send from email service htmlcontent  ");
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);

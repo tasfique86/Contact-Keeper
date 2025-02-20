@@ -7,6 +7,7 @@ import com.scm.scm20.helper.Helper;
 import com.scm.scm20.helper.Message;
 import com.scm.scm20.helper.MessageType;
 import com.scm.scm20.services.EmailService;
+import com.scm.scm20.services.Imp.EmailSchedulerService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -18,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
@@ -162,6 +165,64 @@ public class MessageController {
                 .build());
 
         return "redirect:/user/email/send_multiple";
+    }
+
+
+
+
+
+
+    @GetMapping("/schedule")
+    public String scheduleEmail(Model model){
+        EmailForm emailForm = new EmailForm();
+        model.addAttribute("emailForm", emailForm);
+        return "user/schedule_mail";
+    }
+
+    @Autowired
+    EmailSchedulerService emailSchedulerService;
+
+    @PostMapping("/schedule")
+    public String scheduleEmailSend(@Valid
+                                        @ModelAttribute EmailForm  emailForm,
+                                    BindingResult bindingResult,
+                                    Authentication authentication,
+                                    HttpSession httpSession)
+    {
+
+        if(bindingResult.hasErrors()){
+            httpSession.setAttribute("messsage", Message.builder()
+                    .content("Please enter a valid email address")
+                    .type(MessageType.red)
+                    .build());
+            return "user/schedule_mail";
+        }
+        logger.info(emailForm.getTo());
+        logger.info(emailForm.getSubject());
+        logger.info(emailForm.getBody());
+
+        //here userName ==  user email
+        String username = Helper.getEmailOfLoggedInUser(authentication);
+
+        // logger.info("emailForm: " + emailForm.toString()+" "+emailForm.getSubject());
+
+        // just testing purpose  --- it for clarity. who actually send mail
+       // String subject = "Send by : "+username+" || "+emailForm.getSubject();
+
+        String dateTime="15:05 20/02/2025";
+        LocalDateTime sendTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy"));
+
+        emailSchedulerService.scheduledFutureEmail(emailForm.getTo(), emailForm.getSubject()+sendTime, emailForm.getBody(), sendTime);
+
+
+
+        httpSession.setAttribute("message", Message.builder()
+                .content("Your contact has been saved successfully")
+                .type(MessageType.green)
+                .build());
+        logger.info("Message sent successfully from scheduled future email controller");
+
+        return "redirect:/user/email/schedule";
     }
 
 
