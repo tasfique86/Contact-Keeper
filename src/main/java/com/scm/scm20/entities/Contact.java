@@ -21,7 +21,7 @@ public class Contact {
     private String phoneNumber;
     private String email;
     private String address;
-    private String picture;
+
     @Column(length = 1000)
     private String description;
     private boolean favorite=false;
@@ -33,6 +33,8 @@ public class Contact {
     private String gender;
     private String category; // friend,family,Sir,close friend..etc
 
+
+    private String picture;
     private String cloudinaryImagePublicId;
 
     @ManyToOne

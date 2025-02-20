@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +43,8 @@ public class User implements UserDetails {
 
     private String phoneNumber;
     private String address="no address";
+    private String birthday;
+    private String cloudinaryImagePublicId;
 
     private boolean enabled=false;
     private boolean emailVerified=false;
@@ -55,7 +58,6 @@ public class User implements UserDetails {
 
 
     private String emailToken;
-
 
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch=FetchType.LAZY,orphanRemoval=true)

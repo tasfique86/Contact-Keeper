@@ -38,15 +38,21 @@
             <!-- Card start -->
             <div class="w-1/2 mx-auto bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-lg">
                 <div class="border-b px-4 pb-6">
-                    <div class="text-center my-4">
+                    <div class="text-center my-4 ">
+                        <div class="flex justify-end pr-4 ">
+                            <a data-th-href="@{'/user/profile/update'}" href="#" class="font-medium md:text-2xl text-green-700 dark:text-green-500 hover:underline">
+                                <i class="fa-solid fa-pen-to-square"></i></a>
+                        </div>
+
                         <img class="h-36 w-36 rounded-full border-4 border-gray-200 mx-auto my-4"
                              data-th-src="${loggedInUser.profilePic}"
                              src="https://randomuser.me/api/portraits/women/21.jpg" alt="user avatar">
+
                         <div class="py-2 ">
                             <h3 data-th-text="${loggedInUser.name}"
                                     class="font-bold text-2xl text-gray-800 dark:text-white mb-1"
                             >User Name</h3>
-                            <p data-th-text="${loggedInUser.email} "
+                            <p data-th-text="${loggedInUser.email}"
                                 class="py-1"
                             >email </p>
                             <div class="inline-flex text-gray-700 dark:text-gray-300 items-center py-2">

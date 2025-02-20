@@ -69,16 +69,27 @@ public class UserServiceImpl implements UserService {
        User updateUser= userRepositories.findById(user.getUserId()).orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
 
        updateUser.setName(user.getName());
-       updateUser.setEmail(user.getEmail());
-       updateUser.setPassword(user.getPassword());
+     //  updateUser.setEmail(user.getEmail());
+
+
+
        updateUser.setPhoneNumber(user.getPhoneNumber());
+       updateUser.setBirthday(user.getBirthday());
+       updateUser.setAddress(user.getAddress());
        updateUser.setAbout(user.getAbout());
+
        updateUser.setProfilePic(user.getProfilePic());
-       updateUser.setEnabled(user.isEnabled());
+
+    //   updateUser.setEnabled(user.isEnabled());
        updateUser.setEmailVerified(user.isEmailVerified());
        updateUser.setPhoneNumberVerified(user.isPhoneNumberVerified());
-       updateUser.setProviders(user.getProviders());
-       updateUser.setProviderUserId(user.getProviderUserId());
+
+
+
+     //  updateUser.setProviders(user.getProviders());
+    //   updateUser.setProviderUserId(user.getProviderUserId());
+
+     //   updateUser.setPassword(user.getPassword());
 
         User save= userRepositories.save(updateUser);
 
