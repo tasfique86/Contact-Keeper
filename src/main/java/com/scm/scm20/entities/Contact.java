@@ -30,6 +30,8 @@ public class Contact {
 
     // version 2
     private String birthday;
+    private String gender;
+    private String category; // friend,family,Sir,close friend..etc
 
     private String cloudinaryImagePublicId;
 

@@ -32,12 +32,16 @@ public class MessageController {
     Logger logger = LoggerFactory.getLogger(MessageController.class);
 
 
+
+
+
+
     @RequestMapping("/send")
     public String email( Model model){
 
         EmailForm emailForm = new EmailForm();
         model.addAttribute("emailForm", emailForm);
-        return "user/message";
+        return "user/mail_send";
     }
 
     @RequestMapping(value = "/send",method = RequestMethod.POST)
@@ -53,7 +57,7 @@ public class MessageController {
                     .content("Please enter a valid email address")
                     .type(MessageType.red)
                     .build());
-            return "user/message";
+            return "user/mail_send";
         }
         logger.info(emailForm.getTo());
         logger.info(emailForm.getSubject());
@@ -95,7 +99,7 @@ public class MessageController {
      //   String[] em={"camouflagetr1217@gmail.com", "mehrazzhossin@gmail.com,nahidhossainmd99@gmail.com"};
     //    emailForm.setTo(em);
         model.addAttribute("emailForm", emailForm);
-        return "user/message_for_multiple";
+        return "user/mail_sendTo_multi_person";
     }
 
 
@@ -114,7 +118,16 @@ public class MessageController {
                     .content("Please enter a valid email address")
                     .type(MessageType.red)
                     .build());
-            return "user/message";
+            return "user/mail_sendTo_multi_person";
+        }
+
+        //for null
+        if (emailForm.getTo() == null || emailForm.getTo().length == 0 || emailForm.getTo()[0].trim().isEmpty()) {
+            httpSession.setAttribute("message", Message.builder()
+                    .content("Recipient email(s) cannot be empty!")
+                    .type(MessageType.red)
+                    .build());
+            return "user/mail_sendTo_multi_person";
         }
 
         // Convert comma-separated emails to array
@@ -128,7 +141,7 @@ public class MessageController {
                         .content("Invalid email: " + email)
                         .type(MessageType.red)
                         .build());
-                return "user/message";
+                return "user/mail_sendTo_multi_person";
             }
         }
 

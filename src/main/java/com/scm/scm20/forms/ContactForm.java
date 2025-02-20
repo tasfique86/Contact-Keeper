@@ -31,6 +31,12 @@ public class ContactForm {
     private String   facebookLink;
     private String   linkedInLink;
 
+    // version 2
+    private String birthday;
+    private String gender;
+    @NotBlank(message = "Category is required")
+    private String category;
+
 
     private MultipartFile profilePicture;
     private String pictureUrl;

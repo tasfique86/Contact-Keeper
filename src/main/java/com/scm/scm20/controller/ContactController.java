@@ -89,6 +89,10 @@ public class ContactController {
         contact.setEmail(contactForm.getEmail());
         contact.setDescription(contactForm.getAbout());
         contact.setPhoneNumber(contactForm.getPhoneNumber());
+        contact.setCategory(contactForm.getCategory());
+        contact.setBirthday(contactForm.getBirthday());
+
+
         contact.setUser(user);
         contact.setLinkdInLink(contactForm.getLinkedInLink());
         contact.setFacebookLink(contactForm.getFacebookLink());
@@ -220,6 +224,8 @@ public class ContactController {
         contactForm.setLinkedInLink(contact.getLinkdInLink());
         contactForm.setFacebookLink(contact.getFacebookLink());
         contactForm.setPictureUrl(contact.getPicture());
+        contactForm.setCategory(contact.getCategory());
+        contactForm.setBirthday(contact.getBirthday());
 
 
         model.addAttribute("contactForm", contactForm);
@@ -253,6 +259,8 @@ public class ContactController {
        newContact.setLinkdInLink(contactForm.getLinkedInLink());
        newContact.setPhoneNumber(contactForm.getPhoneNumber());
        newContact.setDescription(contactForm.getAbout());
+       newContact.setBirthday(contactForm.getBirthday());
+       newContact.setCategory(contactForm.getCategory());
 
 
 
