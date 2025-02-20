@@ -21,4 +21,7 @@ public class EmailForm {
     private String body;
     private MultipartFile attachment;
 
+    private String time;
+    private String date;
+
 }

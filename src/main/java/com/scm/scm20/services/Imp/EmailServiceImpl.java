@@ -38,7 +38,7 @@ public class EmailServiceImpl implements EmailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject(subject);
-        message.setText(body);
+        message.setText(body); // send only normal text
         message.setFrom(domainName);
         mailSender.send(message);
         logger.info(message.toString());
@@ -59,12 +59,21 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendEmail(String[] to, String subject, String body) {
 
-        SimpleMailMessage  message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(body);
-        message.setFrom(domainName);
-        mailSender.send(message);
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true,"UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body, true);// here send both normal message and html code
+            helper.setFrom(domainName);
+            mailSender.send(message);
+
+            logger.info("Email sent to " + to);
+            logger.info("send from email service htmlcontent  ");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
 
 
 
@@ -78,7 +87,7 @@ public class EmailServiceImpl implements EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true,"UTF-8");
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(htmlContent, true);
+            helper.setText(htmlContent, true); ;// here send both normal message and html code
             helper.setFrom(domainName);
             mailSender.send(message);
 
@@ -100,7 +109,7 @@ public class EmailServiceImpl implements EmailService {
             helper.setFrom(domainName);
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(body, true);
+            helper.setText(body, true); ;// here send both normal message and html code
             FileSystemResource resource = new FileSystemResource(file);
 
             helper.addAttachment(resource.getFilename(), resource);

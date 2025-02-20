@@ -24,7 +24,7 @@
     <div class="grid grid-cols-12 mb-5 " >
       <div class="col-span-3 "></div>
       <div class=" col-span-12 md:col-span-6  ">
-        <div class="card block space-x-2  flex-auto mt-5 p-4
+        <div class="card block space-x-2 space-y-2  flex-auto mt-5 p-4
         bg-white border border-gray-200 rounded-lg shadow-sm  dark:bg-gray-800 dark:border-gray-700 ">
           <a data-th-href="@{'/user/email/send'}"
              class="items-center p-2 text-gray-900 dark:hover:text-black rounded-lg dark:text-white  dark:bg-gray-900 hover:bg-orange-300 group">
@@ -147,10 +147,60 @@
             <!--                        </div>-->
 
 
+<!--            Schule selection-->
+
+
+            <div class="mb-12">
+
+              <h2 class="text-xl text-gray-900 dark:text-white font-bold mb-2">Set mail schedule</h2>
+
+              <div class="pt-5 border-t border-gray-200 dark:border-gray-800 flex sm:flex-row flex-col sm:space-x-5 rtl:space-x-reverse">
+                <div>
+
+                  <label
+                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Date (dd/MM/yyyy)</label>
+                  <div class="relative mb-1">
+
+                    <input type="text"
+                           data-th-field="*{date}"
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+                                      focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600
+                                      dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           placeholder="dd/MM/yyyy">
+                  </div>
+
+                </div>
+                <div class="sm:ms-7 sm:ps-5 sm:border-s border-gray-200 dark:border-gray-800 w-full sm:max-w-[15rem] mt-5 sm:mt-0">
+                  <div>
+
+                    <label
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      Time (24-hour format)</label>
+                    <div class="relative mb-1">
+
+                      <input type="text"
+                             data-th-field="*{time}"
+                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+                                      focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600
+                                      dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                             placeholder="HH:MM">
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+
+
+<!--            button section          -->
+
 
             <div type="submit" class="button-container text-center mb-3 flex space-x-5 justify-center items-center">
-              <button class="px-3 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-600">
-                Send
+              <button  class="px-3 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-600">
+                Send Mail
               </button>
 
               <button type="reset" class="px-4 py-2 bg-red-800 text-white rounded-md hover:bg-red-600">
@@ -169,6 +219,32 @@
   </div>
 </div>
 
+
+
+
+
+<!--<script>-->
+<!--  document.getElementById("sendButton").addEventListener("click", function() {-->
+<!--    // Get selected date from datepicker-->
+<!--    let datepickerElement = document.querySelector("[inline-datepicker]");-->
+<!--    let selectedDate = datepickerElement.getAttribute("data-date"); // Assuming datepicker stores selected date here-->
+
+<!--    // Get selected time from radio buttons-->
+<!--    let selectedTime = document.querySelector('input[name="timetable"]:checked + label').innerText.trim();-->
+
+<!--    // Format date to "dd/MM/yyyy"-->
+<!--    let dateObj = new Date(selectedDate);-->
+<!--    let formattedDate = dateObj.getDate().toString().padStart(2, '0') + "/" +-->
+<!--            (dateObj.getMonth() + 1).toString().padStart(2, '0') + "/" +-->
+<!--            dateObj.getFullYear();-->
+
+<!--    // Combine time and date in "HH:mm dd/MM/yyyy" format-->
+<!--    let formattedDateTime = selectedTime + " " + formattedDate;-->
+
+<!--    console.log("Formatted DateTime:", formattedDateTime);-->
+<!--  });-->
+
+<!--</script>-->
 
 
 

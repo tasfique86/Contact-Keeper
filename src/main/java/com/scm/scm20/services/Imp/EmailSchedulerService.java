@@ -28,7 +28,7 @@ public class EmailSchedulerService {
     private Logger logger = LoggerFactory.getLogger(EmailSchedulerService.class);
 
     public ScheduledFuture<?> scheduledFutureEmail(String to, String subject, String body, LocalDateTime sendTime) {
-        Runnable emailTask = () -> emailService.sendEmail(to,subject,body);
+        Runnable emailTask = () -> emailService.sendEmailHtml(to,subject,body);
         logger.info("Email processing started");
 
         Date scheduledDate = Date.from(sendTime.atZone(ZoneId.systemDefault()).toInstant());

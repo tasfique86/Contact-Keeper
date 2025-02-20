@@ -74,7 +74,7 @@ public class MessageController {
         // just testing purpose  --- it for clarity. who actually send mail
         String subject = "Send by : "+username+" || "+emailForm.getSubject();
 
-        emailService.sendEmail(emailForm.getTo(), subject, emailForm.getBody());
+        emailService.sendEmailHtml(emailForm.getTo(), subject, emailForm.getBody());
 
 
 
@@ -209,7 +209,7 @@ public class MessageController {
         // just testing purpose  --- it for clarity. who actually send mail
        // String subject = "Send by : "+username+" || "+emailForm.getSubject();
 
-        String dateTime="15:05 20/02/2025";
+        String dateTime=emailForm.getTime()+" "+emailForm.getDate();
         LocalDateTime sendTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy"));
 
         emailSchedulerService.scheduledFutureEmail(emailForm.getTo(), emailForm.getSubject()+sendTime, emailForm.getBody(), sendTime);
@@ -220,7 +220,7 @@ public class MessageController {
                 .content("Your contact has been saved successfully")
                 .type(MessageType.green)
                 .build());
-        logger.info("Message sent successfully from scheduled future email controller");
+        logger.info("Message sent successfully from scheduled future email controller "+emailForm.getTime()+ " "+ emailForm.getDate());
 
         return "redirect:/user/email/schedule";
     }
