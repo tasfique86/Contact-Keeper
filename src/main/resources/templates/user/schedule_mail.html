@@ -107,7 +107,11 @@
             </div>
 
 
-
+            <p class="text-red-600"
+               data-th-if="${#fields.hasErrors('subject')}"
+               data-th-errors="*{subject}">
+                here insert subject
+            </p>
 
             <!--                        Message    -->
             <div class="mb-3">
@@ -119,11 +123,11 @@
                       rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
                            dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write here..."></textarea>
 
-              <p class="text-red-600"
-                 data-th-if="${#fields.hasErrors('body')}"
-                 data-th-errors="*{to}">
-                write something here
-              </p>
+<!--              <p class="text-red-600"-->
+<!--                 data-th-if="${#fields.hasErrors('body')}"-->
+<!--                 data-th-errors="*{to}">-->
+<!--                write something here-->
+<!--              </p>-->
 
             </div>
             <!--                       attachment -->
@@ -168,6 +172,11 @@
                                       focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600
                                       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="dd/MM/yyyy">
+<!--                    <p class="text-red-600"-->
+<!--                       data-th-if="${#fields.hasErrors('date')}"-->
+<!--                       data-th-errors="*{date}">-->
+<!--                      select date-->
+<!--                    </p>-->
                   </div>
 
                 </div>
@@ -186,6 +195,12 @@
                                       dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                              placeholder="HH:MM">
                     </div>
+
+<!--                    <p class="text-red-600"-->
+<!--                       data-th-if="${#fields.hasErrors('time')}"-->
+<!--                       data-th-errors="*{time}">-->
+<!--                      set time-->
+<!--                    </p>-->
 
                   </div>
                 </div>

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
@@ -190,7 +191,8 @@ public class MessageController {
                                     HttpSession httpSession)
     {
 
-        if(bindingResult.hasErrors()){
+
+        if(bindingResult.hasErrors() ){
             httpSession.setAttribute("messsage", Message.builder()
                     .content("Please enter a valid email address")
                     .type(MessageType.red)
@@ -210,7 +212,26 @@ public class MessageController {
        // String subject = "Send by : "+username+" || "+emailForm.getSubject();
 
         String dateTime=emailForm.getTime()+" "+emailForm.getDate();
-        LocalDateTime sendTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy"));
+
+        // Define the expected format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+
+
+        LocalDateTime sendTime;
+        try {
+            sendTime = LocalDateTime.parse(dateTime, formatter);
+        } catch (DateTimeParseException e) {
+            httpSession.setAttribute("message", Message.builder()
+                    .content("Invalid date-time format! Please use HH:mm dd/MM/yyyy")
+                    .type(MessageType.red)
+                    .build());
+            logger.error("Invalid date-time format: {}", dateTime);
+            return "user/schedule_mail";
+        }
+
+
+
+       // LocalDateTime sendTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy"));
 
         emailSchedulerService.scheduledFutureEmail(emailForm.getTo(), emailForm.getSubject()+sendTime, emailForm.getBody(), sendTime);
 
