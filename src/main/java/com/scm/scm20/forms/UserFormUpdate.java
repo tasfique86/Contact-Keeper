@@ -1,5 +1,8 @@
 package com.scm.scm20.forms;
 
+import com.scm.scm20.entities.Providers;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class UserFormUpdate {
 
-    @NotNull
+
+    @NotBlank
     private String userId;
 
     @NotBlank(message = "Username is required")
@@ -50,4 +54,10 @@ public class UserFormUpdate {
     private String profilePictureURL;
     private MultipartFile profilePictureFile;
     private String birthday;
+
+
+    @Enumerated(value = EnumType.STRING)
+    //SELF,GOOGLE,FACEBOOK,TWITTER,LINKEDIN,GITHUB
+    private Providers providers=Providers.SELF;
+    private String providerUserId;
 }

@@ -66,30 +66,46 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> updateUser(User user) {
 
+        logger.info("Updating userId: " + user.getUserId());
+        logger.info("Upadating phone : " +user.getPhoneNumber());
+        logger.info("Updating birthday : " +user.getBirthday());
+
        User updateUser= userRepositories.findById(user.getUserId()).orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
 
+
+
        updateUser.setName(user.getName());
-     //  updateUser.setEmail(user.getEmail());
+
+        logger.info("old userName: " + updateUser.getName());
+        logger.info("old userEmail: " + updateUser.getEmail());
+        logger.info("old userPhoneNumber: " + updateUser.getPhoneNumber());
+        logger.info("old userBirthday: " + updateUser.getBirthday());
+
+//       updateUser.setUserId(user.getUserId());
+//
+//       updateUser.setEmail(user.getEmail());
+//
+//
+//       updateUser.setPhoneNumber(user.getPhoneNumber());
+//       updateUser.setBirthday(user.getBirthday());
+//       updateUser.setAddress(user.getAddress());
+//       updateUser.setAbout(user.getAbout());
+//
+//       updateUser.setProfilePic(user.getProfilePic());
+//
+//       updateUser.setEnabled(user.isEnabled());
+//
+//       updateUser.setEmailVerified(user.isEmailVerified());
+//       updateUser.setPhoneNumberVerified(user.isPhoneNumberVerified());
+//
+//
+//
+//       updateUser.setProviders(user.getProviders());
+//       updateUser.setProviderUserId(user.getProviderUserId());
+//
+//        updateUser.setPassword(user.getPassword());
 
 
-
-       updateUser.setPhoneNumber(user.getPhoneNumber());
-       updateUser.setBirthday(user.getBirthday());
-       updateUser.setAddress(user.getAddress());
-       updateUser.setAbout(user.getAbout());
-
-       updateUser.setProfilePic(user.getProfilePic());
-
-    //   updateUser.setEnabled(user.isEnabled());
-       updateUser.setEmailVerified(user.isEmailVerified());
-       updateUser.setPhoneNumberVerified(user.isPhoneNumberVerified());
-
-
-
-     //  updateUser.setProviders(user.getProviders());
-    //   updateUser.setProviderUserId(user.getProviderUserId());
-
-     //   updateUser.setPassword(user.getPassword());
 
         User save= userRepositories.save(updateUser);
 

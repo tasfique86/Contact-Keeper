@@ -104,12 +104,18 @@ public class UserController {
             Model model,
             Authentication authentication){
         String username= Helper.getEmailOfLoggedInUser(authentication);
+
+
         User user=userService.getUserByEmail(username);
+
         logger.info("User logged in : {}",username);
+        logger.info("User name: "+user.getName());
+        logger.info("user phone number: "+user.getPhoneNumber());
+
 
         UserFormUpdate userForm=new UserFormUpdate();
 
-    //    userForm.setUserId(user.getUserId());
+        userForm.setUserId(user.getUserId());
         userForm.setEmail(user.getEmail());
         userForm.setName(user.getName());
 
@@ -120,9 +126,12 @@ public class UserController {
         userForm.setProfilePictureURL(user.getProfilePic());
         userForm.setAbout(user.getAbout());
 
-//        userForm.setEnabled(user.isEnabled());
-//        userForm.setEmailVerified(user.isEmailVerified());
-//        userForm.setPhoneNumberVerified(user.isPhoneNumberVerified());
+        userForm.setEnabled(user.isEnabled());
+        userForm.setEmailVerified(user.isEmailVerified());
+        userForm.setPhoneNumberVerified(user.isPhoneNumberVerified());
+
+        userForm.setProviderUserId(user.getProviderUserId());
+        userForm.setProviders(user.getProviders());
 
 
         userForm.setPassword(user.getPassword());
@@ -158,16 +167,24 @@ public class UserController {
         }
 
 
+
         String userName = Helper.getEmailOfLoggedInUser(authentication);
-       User user=userService.getUserByEmail(userName);
+        User user=userService.getUserByEmail(userName);
 
-//       user.setUserId(userForm.getUserId());
+        logger.info("User name: "+user.getName());
+        logger.info("user phone number: "+user.getPhoneNumber());
 
+
+        logger.info("User name: "+userForm.getName());
+        logger.info("user phone number: "+userForm.getPhoneNumber());
+
+       user.setUserId(userForm.getUserId());
 
        user.setName(userForm.getName());
-
-        user.setEmail(userForm.getEmail());
+       user.setEmail(userForm.getEmail());
        user.setPhoneNumber(userForm.getPhoneNumber());
+
+
        user.setBirthday(userForm.getBirthday());
        user.setAddress(userForm.getAddress());
        user.setAbout(userForm.getAbout());
@@ -175,6 +192,13 @@ public class UserController {
        user.setEnabled(userForm.isEnabled());
        user.setEmailVerified(userForm.isEmailVerified());
        user.setPhoneNumberVerified(userForm.isPhoneNumberVerified());
+
+
+
+       user.setProviderUserId(userForm.getProviderUserId());
+       user.setProviders(userForm.getProviders());
+
+
 
         user.setPassword(userForm.getPassword());
 
