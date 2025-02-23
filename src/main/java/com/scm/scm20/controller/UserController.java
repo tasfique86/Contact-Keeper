@@ -5,6 +5,7 @@ import com.scm.scm20.entities.Dashboard;
 import com.scm.scm20.entities.User;
 import com.scm.scm20.forms.ContactForm;
 import com.scm.scm20.forms.UserForm;
+import com.scm.scm20.forms.UserFormUpdate;
 import com.scm.scm20.helper.Helper;
 import com.scm.scm20.helper.Message;
 import com.scm.scm20.helper.MessageType;
@@ -100,14 +101,15 @@ public class UserController {
 
     @GetMapping("/profile/update")
     public String detailsUpdateRequest(
-            Model model, Authentication authentication){
+            Model model,
+            Authentication authentication){
         String username= Helper.getEmailOfLoggedInUser(authentication);
         User user=userService.getUserByEmail(username);
         logger.info("User logged in : {}",username);
 
-        UserForm userForm=new UserForm();
+        UserFormUpdate userForm=new UserFormUpdate();
 
-        userForm.setUserId(user.getUserId());
+    //    userForm.setUserId(user.getUserId());
         userForm.setEmail(user.getEmail());
         userForm.setName(user.getName());
 
@@ -118,14 +120,14 @@ public class UserController {
         userForm.setProfilePictureURL(user.getProfilePic());
         userForm.setAbout(user.getAbout());
 
-        userForm.setEnabled(user.isEnabled());
-        userForm.setEmailVerified(user.isEmailVerified());
-        userForm.setPhoneNumberVerified(user.isPhoneNumberVerified());
+//        userForm.setEnabled(user.isEnabled());
+//        userForm.setEmailVerified(user.isEmailVerified());
+//        userForm.setPhoneNumberVerified(user.isPhoneNumberVerified());
 
 
         userForm.setPassword(user.getPassword());
 
-        logger.info("User  : {}",userForm.getUserId());
+      //  logger.info("User  : {}",userForm.getUserId());
 
 
 
@@ -138,7 +140,7 @@ public class UserController {
 
     @PostMapping("/profile/update")
     public String updateProfileRequest(@Valid
-                                           @ModelAttribute UserForm userForm,
+                                           @ModelAttribute UserFormUpdate userForm,
                                        BindingResult bindingResult,
                                        HttpSession httpSession,
                                        Model model,Authentication authentication){
@@ -159,7 +161,7 @@ public class UserController {
         String userName = Helper.getEmailOfLoggedInUser(authentication);
        User user=userService.getUserByEmail(userName);
 
-       user.setUserId(userForm.getUserId());
+//       user.setUserId(userForm.getUserId());
 
 
        user.setName(userForm.getName());
