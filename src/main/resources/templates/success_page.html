@@ -7,13 +7,16 @@
 </head>
 
 <body>
-<div id="content" class="text-center  mt-5 md:w-1/2 mx-auto " >
-    <div data-th-replace="~{message :: messagebox}"></div>
-    <a data-th-href="@{'/login'}"
-       type="button"
-       class="text-white  bg-gray-800 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300
+<div id="content" class="pt-20" >
+
+    <div class="text-center  mt-5 md:w-1/2 mx-auto ">
+        <div data-th-replace="~{message :: messagebox}"></div>
+        <a data-th-href="@{'/login'}"
+           type="button"
+           class="text-white  bg-gray-800 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-blue-300
        font-medium rounded-md text-sm px-4 py-2 text-center dark:bg-blue-800 dark:hover:bg-blue-600 dark:focus:ring-blue-800"
-    >Login</a>
+        >Login</a>
+    </div>
 
 
 </div>

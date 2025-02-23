@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepositories userRepositories;
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -81,35 +81,33 @@ public class UserServiceImpl implements UserService {
         logger.info("old userPhoneNumber: " + updateUser.getPhoneNumber());
         logger.info("old userBirthday: " + updateUser.getBirthday());
 
-//       updateUser.setUserId(user.getUserId());
-//
-//       updateUser.setEmail(user.getEmail());
-//
-//
-//       updateUser.setPhoneNumber(user.getPhoneNumber());
-//       updateUser.setBirthday(user.getBirthday());
-//       updateUser.setAddress(user.getAddress());
-//       updateUser.setAbout(user.getAbout());
-//
-//       updateUser.setProfilePic(user.getProfilePic());
-//
-//       updateUser.setEnabled(user.isEnabled());
-//
-//       updateUser.setEmailVerified(user.isEmailVerified());
-//       updateUser.setPhoneNumberVerified(user.isPhoneNumberVerified());
-//
-//
-//
-//       updateUser.setProviders(user.getProviders());
-//       updateUser.setProviderUserId(user.getProviderUserId());
-//
-//        updateUser.setPassword(user.getPassword());
+       updateUser.setUserId(user.getUserId());
+
+       updateUser.setEmail(user.getEmail());
+
+
+       updateUser.setPhoneNumber(user.getPhoneNumber());
+       updateUser.setBirthday(user.getBirthday());
+       updateUser.setAddress(user.getAddress());
+       updateUser.setAbout(user.getAbout());
+
+       updateUser.setProfilePic(user.getProfilePic());
+
+       updateUser.setEnabled(user.isEnabled());
+
+       updateUser.setEmailVerified(user.isEmailVerified());
+       updateUser.setPhoneNumberVerified(user.isPhoneNumberVerified());
 
 
 
-        User save= userRepositories.save(updateUser);
+       updateUser.setProviders(user.getProviders());
+       updateUser.setProviderUserId(user.getProviderUserId());
 
-        return Optional.ofNullable(save);
+        updateUser.setPassword(user.getPassword());
+
+
+
+        return Optional.of(userRepositories.save(updateUser));
 
 
     }
